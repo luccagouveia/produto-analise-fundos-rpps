@@ -1,0 +1,41 @@
+Para o "Scripts para análise de inconsistências dos fundos" 
+
+Quero que complemente o script com um arquivo de saída no formato .txt e uma saida no terminal, essa saida será um resumo da analise obtida. Deverá conter nesse resumo as respostas das seguintes perguntas:
+
+1. Quantas linhas tem o arquivo?
+	saida = int
+
+2. Quantos "COMPATIBILIDADE_FUNDO" constam como "compativel"?
+	saida = int
+
+
+3. Quantos "COMPATIBILIDADE_FUNDO" constam como "incompativel"?
+		saida = int
+
+3.1. Quantos "COMPATIBILIDADE_FUNDO" constam como "incompativel" por "CO_TIPO_FUNDO"?
+	1-FUNPREV (Quantidade?) saida = int
+	2-FUNFIN (Quantidade?) saida = int
+	9-Não consta (Quantidade?) saida = int
+
+
+3.1. Quantos "COMPATIBILIDADE_FUNDO" constam como "incompativel" por "NO_ORGAO"?
+
+3.2. Quantos "COMPATIBILIDADE_FUNDO" constam como "incompativel" e a qual "CENARIO_FUNDO" corresponde?
+	- "Cenario 1" Quantidade? saida = int
+	- "Cenario 2" Quantidade? saida = int
+	- "Cenario 3" Quantidade? saida = int
+
+3.3. Qual o valor total  do "VL_CONTRIBUICAO" que constem "COMPATIBILIDADE_FUNDO"  igual a "incompativel"?
+	- saida deverá ser em decimal
+
+3.3. Qual o valor total  do "VL_CONTRIBUICAO" que constem "COMPATIBILIDADE_FUNDO"  igual a "incompativel" por "CO_TIPO_FUNDO"?
+
+3.4. Quantos "VL_CONTRIBUICAO" estão com o campo vazio ou nulo? 
+	saida = int
+
+
+4. Quantos "CPF_DUPLICADO" constam como "VERDADEIRO"?
+	saida = int
+
+
+

@@ -1,0 +1,217 @@
+# Preciso ajustar o código para receber mais parâmetros: 
+
+Classificação em cenários (CENARIO_FUNDO):
+
+-- Cenário 1: incompatível e CPF único
+(Adequação dos Fundos | Registros CPF' (Únicos) / Sem Dupla - Vinculação.)
+
+O cenario 1 podemos manter com os parameetros atuais.
+
+-- Cenário 2: incompatível, CPF duplicado e Situação Funcional igual 1
+(Adequação dos Fundos | Registro CPF (Duplicados) / Duplo Vínculo | Situação Funcional = 1 (Em exercício))
+
+O cenario 2 - Alem de "COMPATIBILIDADE_FUNDO" = "incompativel", "CPF_DUPLICADO" = "VERDADEIRO", também terá como critério "CO_SITUACAO_FUNCIONAL" = "1"
+
+-- Cenario 3 - incompatível,  CPF duplicado e Funcional diferente de 1
+(Adequação dos Fundos | Registro CPF (Duplicados) / Duplo Vínculo | Situação Funcional != 1 (Em exercício))
+
+O cenario 3 - Alem de "COMPATIBILIDADE_FUNDO" = "incompativel", "CPF_DUPLICADO" = "VERDADEIRO", também terá como critério "CO_SITUACAO_FUNCIONAL" != "1"
+
+
+
+
+# Criar script para realizar analise exploratória: 
+
+Responder as  perguntas:
+
+\dados\SERVIDOR.xlsx
+
+## Trabalhar com cadastro
+
+1. Quantas linhas tem o arquivo?
+2. Quantidade de servidores por fundo?
+	"CO_TIPO_FUNDO"
+
+		1 - FUNPREV
+		2 - FUNFIN 
+		3 - "Mantidos pelo Tesouro"
+		9 - "Não consta"
+
+
+3. Quantidade de servidores por orgão?
+	"NO_ORGAO"
+
+4. Quantidade de servidores por tipo de cargo?
+	"CO_TIPO_CARGO"
+
+		1 - Magistrados, Membros do Min. Público ou de Tribunal de Contas
+		2 - Professores da Educ. Infantil e do Ensino Fund. e Médio
+		3 - Professores do Ensino Superior 
+		4 - Policiais Civis (Federais, Distritais ou Estaduais)
+		5 - Agente Penitenciário
+		6 - Guarda Municipal
+		7 - Demais Servidores
+
+5. Quantidade de CPF' duplicados?
+	"ID_SERVIDOR_CPF"
+
+6. Quantidade de servidores por sexo?
+	"CO_SEXO_SERVIDOR"
+		
+		1 - Feminino
+		2 - Masculino
+
+7. Quantidade de servidores por estado civil?
+	"CO_EST_CIVIL_SERVIDOR"
+
+		1 - solteiro(a)
+		2 - casado(a)
+		3 - viúvo(a)
+		4 - separado(a) judicialmente
+		5 - divorciado(a)
+		6 - união estável
+		9 - outros
+
+8. Quantidade de servidores por situação funcional?
+	"CO_SITUACAO_FUNCIONAL"
+				
+		1 - Em Exercício
+		2 - Licenciado(a) com Remuneração
+		3 - Licenciado(a) sem Remuneração
+		4 - Cedido(a) com Ônus
+		5 - Cedido(a) sem Ônus
+		6 - Requisitado(a) com Ônus
+		7 - Requisitado(a) sem Ônus
+		8 - Em Disponibilidade
+		9 - Afastado Mandato Eletivo
+		10 - Recluso ou Detido
+		11 -Outros
+
+
+## Trabalhar com datas
+
+9. Quantidade de servidores por faixa de idade?
+	"DT_NASC_SERVIDOR"
+
+		Aqui deve ser realizado lógica, onde utilizaremos o "DT_NASC_SERVIDOR" como data de nascimento e precisaremos incluir uma data corte para realizar o calculo:
+
+	"DT_NASC_SERVIDOR" - "data_corte" = IDADE
+
+
+
+10. Analise de idade de ingreso no serviço publico:
+	"DT_NASC_SERVIDOR"
+	"DT_ING_SERV_PUB"
+		
+		"DT_ING_SERV_PUB" - "DT_NASC_SERVIDOR" = IDADE_ING_SERV_PUB
+
+10.1. Se "IDADE_ING_SERV_PUB" < 18 - "Gerando idade de ingresso no serviço publico abaixo de 18 anos []"
+
+
+11. Analise de idade de ingreso no ente:
+	"DT_NASC_SERVIDOR"
+	"DT_ING_ENTE"
+		
+		"DT_ING_ENTE" - "DT_NASC_SERVIDOR" = IDADE_ING_ENTE
+
+11.1. Se "IDADE_ING_ENTE" < 18 - "Gerando idade de ingresso no ente abaixo de 18 anos []"
+
+
+## Trabalhar com valores (R$)
+
+
+12. Analisar "BASE DE CÁLCULO MENSAL DO SERVIDOR"
+	"VL_BASE_CALCULO" 
+	"VL_TETO_ESPECIFICO"
+	
+
+		"VL_BASE_CALCULO" < 1.631 "Abaixo do Salário Mínimo vigente"
+		"VL_BASE_CALCULO" > "VL_TETO_ESPECIFICO" "acima do VL_TETO_ESPECIFICO []"
+
+
+13. Analisar "REMUNERAÇÃO MENSAL TOTAL DO SERVIDOR"
+	"VL_REMUNERACAO" 
+	"VL_TETO_ESPECIFICO"
+	
+
+		"VL_REMUNERACAO" < 1.631 "Abaixo do Salário Mínimo vigente"
+		"VL_REMUNERACAO" > "VL_TETO_ESPECIFICO" "acima do VL_TETO_ESPECIFICO []"
+
+# Trabalhar com o cadastro
+	
+14. Quantidade de servidores com INDICADOR DE RECEBIMENTO DE ABONO DE PERMANÊNCIA?
+	"IN_ABONO_PERMANENCIA"
+	"DT_INICIO_ABONO"
+
+		1 - Sim
+		2 - Não
+
+
+15. Quantidade de servidores com INDICADOR DE PREVIDÊNCIA COMPLEMENTAR
+	"IN_PREV_COMP"
+
+		1 - Sim
+		2 - Não
+		
+		
+## VOCABULÁRIO
+
+"CO_TIPO_FUNDO"
+
+		1 - FUNPREV
+		2 - FUNFIN 
+		3 - "Mantidos pelo Tesouro"
+		9 - "Não consta"
+
+
+"CO_TIPO_CARGO"
+
+		1 - Magistrados, Membros do Min. Público ou de Tribunal de Contas
+		2 - Professores da Educ. Infantil e do Ensino Fund. e Médio
+		3 - Professores do Ensino Superior 
+		4 - Policiais Civis (Federais, Distritais ou Estaduais)
+		5 - Agente Penitenciário
+		6 - Guarda Municipal
+		7 - Demais Servidores
+
+
+"CO_EST_CIVIL_SERVIDOR"
+
+		1 - solteiro(a)
+		2 - casado(a)
+		3 - viúvo(a)
+		4 - separado(a) judicialmente
+		5 - divorciado(a)
+		6 - união estável
+		9 - outros
+
+
+"CO_SITUACAO_FUNCIONAL"
+				
+		1 - Em Exercício
+		2 - Licenciado(a) com Remuneração
+		3 - Licenciado(a) sem Remuneração
+		4 - Cedido(a) com Ônus
+		5 - Cedido(a) sem Ônus
+		6 - Requisitado(a) com Ônus
+		7 - Requisitado(a) sem Ônus
+		8 - Em Disponibilidade
+		9 - Afastado Mandato Eletivo
+		10 - Recluso ou Detido
+		11 -Outros
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
