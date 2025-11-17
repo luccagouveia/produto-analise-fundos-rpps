@@ -1,155 +1,227 @@
-# Projeto Técnico: Análise de Fundos Previdenciários (RPPS)
+# Projeto Técnico IPREM/DGBC
+  Produto: Análise de Fundos Previdenciários (RPPS)
 
-  # Visão Geral
-    
-    # Este projeto realiza a análise técnica e atuarial dos dados cadastrais de servidores públicos vinculados ao Regime Próprio de Previdência Social (RPPS) do Município de São Paulo, com base nos critérios legais estabelecidos pelos seguintes normativos:
+  ## Visão Geral
+    - Este projeto realiza a análise técnica e atuarial dos dados cadastrais de servidores ativos e aposentados vinculados ao Regime Próprio de Previdência Social (RPPS) do Município de São Paulo, com base nos critérios legais estabelecidos pelos seguintes normativos:
 
-      # Decreto nº 61.151, de 18 de março de 2022
-          - Dispõe sobre o custeio do RPPS, a adesão ao Regime de Previdência Complementar (RPC) e a segregação de massas entre os fundos FUNPREV (capitalização) e FUNFIN (repartição simples). 
+    - Decreto nº 61.151, de 18 de março de 2022
+    Dispõe sobre o custeio do RPPS, a adesão ao Regime de Previdência Complementar (RPC) e a segregação de massas entre os fundos FUNPREV (capitalização) e FUNFIN (repartição simples).
 
-      # Decreto nº 64.144, de 1º de abril de 2025
-          - Altera o decreto anterior, atualizando critérios de elegibilidade e instituindo contribuições extraordinárias patronais escalonadas ao FUNFIN, com vigência até abril de 2029.
 
-  # Objetivo do Script
-    # O script principal realiza:
+    - Decreto nº 64.144, de 1º de abril de 2025
+    Altera o decreto anterior, atualizando critérios de elegibilidade e instituindo contribuições extraordinárias patronais escalonadas ao FUNFIN, com vigência até abril de 2029.
 
-      1. Classificação do fundo previdenciário (CALCULO_FUNDO) com base em:
+  ## Objetivo
+    Os scripts realizam:
+    - Classificação do fundo previdenciário (CALCULO_FUNDO) com base em:
+      - Data de ingresso no ente (DT_ING_ENTE)
+      - Data de nascimento (DT_NASC_SERVIDOR ou DT_NASC_APOSENTADO)
+      - Indicador de previdência complementar (IN_PREV_COMP)
 
-          - Data de ingresso no ente (DT_ING_ENTE)
-          - Data de nascimento (DT_NASC_SERVIDOR)
-          - Indicador de previdência complementar (IN_PREV_COMP)
+    - Verificação de compatibilidade (COMPATIBILIDADE_FUNDO) entre o fundo informado (CO_TIPO_FUNDO) e o fundo calculado.
+    - Identificação de duplicidade de CPF (CPF_DUPLICADO) para controle de registros.
 
-      2. Verificação de compatibilidade (COMPATIBILIDADE_FUNDO) entre o fundo informado (CO_TIPO_FUNDO) e o fundo calculado.
+    - Geração de relatórios com:
 
-      3. Identificação de duplicidade de CPF (CPF_DUPLICADO) para controle de registros.
+      - Total de registros
+      - Compatíveis e incompatíveis (com percentuais)
+      - Incompatíveis por fundo e órgão
+      - Valor total de contribuições incompatíveis
+      - CPFs duplicados
 
-      4. Classificação em cenários (CENARIO_FUNDO):
-
-        - Cenário 1: incompatível e CPF único
-        - Cenário 2: incompatível, CPF duplicado e situação funcional = 1
-        - Cenário 3: incompatível, CPF duplicado e situação funcional ≠ 1
-
-  # Estrutura do Projeto
-
+  ## Estrutura do Projeto
+  ```
     analise_fundos_rpps/
-      ├── dados/                        # Arquivos de entrada (.xlsx)
-      │   └── SERVIDOR.xlsx
-      ├── resultados/                   # Arquivos gerados após análise
-      │   ├── SERVIDOR_resultado.xlsx
-      │   └── SERVIDOR_analise_exploratoria.txt
-      ├── scripts/                      # Scripts de análise
-      │   ├── analise_fundos.py         # Script principal
-      │   └── analise_exploratoria.py   # Script estatístico
-      ├── requirements.txt              # Dependências
-      └── README.md                     # Documentação técnica
+    ├── dados/                        # Arquivos de entrada (.xlsx)
+    │   ├── servidor_2025_10.xlsx
+    │   ├── aposentado_2025_10.xlsx
+    │   └── pensionista_2025_10.xlsx
+    ├── resultados/                   # Arquivos gerados após análise
+    │   ├── SERVIDOR_resultado.xlsx
+    │   ├── SERVIDOR_resumo_analise.txt
+    │   ├── APOSENTADOS_resultado.xlsx
+    │   ├── APOSENTADOS_resumo_analise.txt
+    │   ├── PENSIONISTAS_incompativeis.xlsx
+    │   └── PENSIONISTAS_resumo_analise.txt
+    ├── scripts/                      # Scripts de análise
+    │   ├── main_fundos_serv.py       # Análise para servidores
+    │   ├── main_fundos_apos.py       # Análise para aposentados
+    │   └── main_fundos_pens.py       # Análise para pensionistas
+    ├── requirements.txt              # Dependências
+    └── README.md                     # Documentação técnica
+  ``` 
 
-  # Requisitos Técnicos
+  ## Requisitos Técnicos
     - Python 3.10+
-    - Visual Studio Code ou terminal
     - Bibliotecas:
       - pandas
       - openpyxl
 
-        Instalação:
-          pip install -r requirements.txt
+  ## Instalação:
+  ```
+    - pip install -r requirements.txt
+  ```
 
-  # Execução
+  ## Execução
 
-    1. Preparar o ambiente
-      Coloque o arquivo SERVIDOR.xlsx na pasta dados/.
+  ### Servidores
+    ```
+      python scripts/main_fundos_serv.py
+    ```
+    Busca automaticamente o arquivo com “servidor” no nome na pasta dados/.
+    Seleciona o mais recente.
+    
+    Gera:
+      - SERVIDOR_resultado.xlsx
+      - SERVIDOR_resumo_analise.txt
 
-    2. Executar a análise dos fundos
-      - python scripts/analise_fundos.py
+  ### Aposentados
+    ```
+      python scripts/main_fundos_apos.py
+    ```
+    Busca automaticamente o arquivo com “aposentado” no nome na pasta dados/.
+    Seleciona o mais recente.
+    
+    Gera:
+      - APOSENTADOS_resultado.xlsx
+      - APOSENTADOS_resumo_analise.txt
 
-    3. Executar a análise exploratória
-      - python scripts/analise_exploratoria.py
+  ### Pensionistas
+  ```
+  python scripts/main_fundos_pens.py
+  ```
+  Busca automaticamente o arquivo com “pensionista” no nome na pasta dados/.
+  Seleciona o mais recente.
+    Gera:
+      - PENSIONISTAS_incompativeis.xlsx
+      - PENSIONISTAS_resumo_analise.txt
+      
 
-    ## Gera o arquivo SERVIDOR_analise_exploratoria.txt com:
+  ## Campos Gerados
+  ### Servidores
+    ```
+    ID_SERVIDOR_MATRICULA
+    ID_SERVIDOR_CPF
+    CO_TIPO_FUNDO
+    NO_ORGAO
+    CO_SITUACAO_FUNCIONAL
+    VL_CONTRIBUICAO
+    DT_ING_ENTE
+    DT_NASC_SERVIDOR
+    IN_PREV_COMP
+    CPF_DUPLICADO
+    CALCULO_FUNDO
+    COMPATIBILIDADE_FUNDO
+    ```
+  ### Aposentados
+    ```
+    ID_APOSENTADO_MATRICULA
+    ID_APOSENTADO_CPF
+    CO_TIPO_FUNDO
+    NO_ORGAO
+    CO_TIPO_APOSENTADORIA (mapeado para descrição)
+    VL_APOSENTADORIA
+    VL_CONTRIBUICAO
+    DT_ING_ENTE
+    DT_NASC_APOSENTADO
+    IN_PREV_COMP
+    CPF_DUPLICADO
+    CALCULO_FUNDO
+    COMPATIBILIDADE_FUNDO
+    ```
+  ### Pensionistas
+    ```
+    ID_INSTITUIDOR_MATRICULA
+    ID_INSTITUIDOR_CPF
+    NO_ORGAO
+    CO_TIPO_FUNDO (FUNPREV ou FUNFIN)
+    DT_NASC_INSTITUIDOR
+    ID_PENSIONISTA_MATRICULA
+    ID_PENSIONISTA_CPF
+    VL_CONTRIBUICAO
+    CPF_DUPLICADO
+    CALCULO_FUNDO
+    COMPATIBILIDADE_FUNDO
+    ```
 
-      Gera o arquivo SERVIDOR_analise_exploratoria.txt com:
+  ## Resumos 
+  - Cada relatório inclui:
 
-        - Contagens por fundo, órgão, cargo, sexo, estado civil, situação funcional
-        - Estatísticas de idade e idade de ingresso
-        - Verificações de valores abaixo do salário mínimo e acima do teto
-        - Indicadores de abono de permanência e previdência complementar
-        - Resumo estatístico de variáveis numéricas
+    Total de registros.
+    Fundos compatíveis e incompatíveis (com percentuais).
+    Incompatíveis por fundo.
+    Incompatíveis por órgão (Top 3).
+    Valor total de contribuições incompatíveis.
+    CPFs duplicados.
 
-    4. Verificar os resultados
-      Os arquivos gerados estarão na pasta resultados/.
+  ### Exemplo de Saída – Servidores
+    ```
+    1. Total de linhas: 116174
+    2. CPF_DUPLICADO 
+    2.1 - verdadeiro: 15149
+    3. Fundos Compatíveis: 112922 (97.20%)
+    4. Fundos Incompatíveis: 3252 (2.80%)
+    4.1.1 - Incompatíveis no fundo FUNPREV: 3205
+    4.1.2 - Incompatíveis no fundo Não consta: 39
+    4.1.3 - Incompatíveis no fundo FUNFIN: 8
+    5. Incompatíveis por NO_ORGAO:
+    5.1 - PREFEITURA DO MUNICIPIO DE SAO PAULO: 3124
+    5.2 - HOSP SERV PUBLICO MUNICIPAL: 69
+    5.3 - TRIBUNAL DE CONTAS DO MUNICIPIO DE SAO PAULO: 59
+    6. Valor total VL_CONTRIBUICAO incompatível: 2415525.97
+    ```
 
-        ## Campos Gerados
-          O arquivo SERVIDOR_resultado.xlsx contém:
+   ### Exemplo de Saída – Aposentados
+    ```
+    1. Total de linhas: 95398
+    2. Fundos Compatíveis: 95235 (99.83%)
+    3. Fundos Incompatíveis: 163 (0.17%)
+    3.1.1 - Incompatíveis no fundo FUNPREV: 141
+    3.1.2 - Incompatíveis no fundo FUNFIN: 22
+    4. Incompatíveis por NO_ORGAO:
+    4.1 - PREFEITURA DO MUNICIPIO DE SAO PAULO: 85
+    4.2 - TRIBUNAL DE CONTAS DO MUNICIPIO DE SAO PAULO: 39
+    4.3 - SERVICO FUNERARIO DO MUNICIPIO DE SAO PAULO: 37
+    5. Valor total VL_CONTRIBUICAO incompatível: 241336.28
+    6. CPF_DUPLICADO verdadeiro: 8764
+    ```
+  ### Exemplo de Saída – Pensionistas
+  ```
+  1. Total analisados (FUNPREV): 22630
+  2. Compatíveis: 22450 (99.21%)
+  3. Incompatíveis: 180 (0.79%)
+  4. CPF duplicados: 45
+  5. Top 5 órgãos com incompatíveis:
+  5.1 - PREFEITURA DO MUNICIPIO DE SAO PAULO: 120
+  5.2 - TRIBUNAL DE CONTAS DO MUNICIPIO DE SAO PAULO: 30
+  5.3 - SERVICO FUNERARIO DO MUNICIPIO DE SAO PAULO: 15
+  ```
 
-          - ID_SERVIDOR_MATRICULA
-          - ID_SERVIDOR_CPF
-          - CO_TIPO_FUNDO
-          - NO_ORGAO
-          - CO_SITUACAO_FUNCIONAL
-          - VL_CONTRIBUICAO
-          - DT_ING_ENTE
-          - DT_NASC_SERVIDOR
-          - IN_PREV_COMP
-          - CPF_DUPLICADO
-          - CALCULO_FUNDO
-          - COMPATIBILIDADE_FUNDO
-          - CENARIO_FUNDO
 
-   # Lógica de Classificação
-    FUNFIN (2): servidor admitido até 27/12/2018, nascido após 28/02/1957, e não aderiu ao RPC.
-    FUNPREV (1): servidor admitido após 27/12/2018, ou nascido até 28/02/1957, ou aderiu ao RPC.
+  ## Lógica de Classificação
 
-  # Vocabulários Técnicos
-    Os códigos são traduzidos conforme os seguintes vocabulários:
+    - FUNFIN: ingresso até 27/12/2018, nascimento após 28/02/1957, e não aderiu ao RPC.
+    - FUNPREV: ingresso após 27/12/2018, ou nascimento até 28/02/1957, ou aderiu ao RPC.
 
-      CO_TIPO_FUNDO
-        Código	Descrição
-          1	FUNPREV
-          2	FUNFIN
-          3	Mantidos pelo Tesouro
-          9	Não consta
+  ## Lógica aplicada para Pensionistas
+  - FUNPREV:
+    - Se DT_NASC_INSTITUIDOR ≤ 28/02/1957 → FUNPREV.
+    - Se data inválida ou erro → FUNPREV.
+  - Caso contrário → Null (registro excluído da análise).
 
-      CO_TIPO_CARGO
-        Código	Descrição
-          1	Magistrados, Membros do MP ou TC
-          2	Professores da Educação Básica
-          3	Professores do Ensino Superior
-          4	Policiais Civis
-          5	Agente Penitenciário
-          6	Guarda Municipal
-          7	Demais Servidores
+  ## Vocabulários Técnicos
+    CO_TIPO_FUNDO
 
-      CO_SEXO_SERVIDOR
-        Código	Sexo
-          1	Feminino
-          2	Masculino
+    ![alt text]({11DD5172-ABEE-44E1-A217-D52714BECA1B}.png)
 
-      CO_EST_CIVIL_SERVIDOR
-        Código	Estado Civil
-          1	Solteiro(a)
-          2	Casado(a)
-          3	Viúvo(a)
-          4	Separado(a) judicialmente
-          5	Divorciado(a)
-          6	União estável
-          9	Outros
+    CO_TIPO_APOSENTADORIA
 
-      CO_SITUACAO_FUNCIONAL
-        Código	Situação
-          1	Em Exercício
-          2	Licenciado(a) com Remuneração
-          3	Licenciado(a) sem Remuneração
-          4	Cedido(a) com Ônus
-          5	Cedido(a) sem Ônus
-          6	Requisitado(a) com Ônus
-          7	Requisitado(a) sem Ônus
-          8	Em Disponibilidade
-          9	Afastado Mandato Eletivo
-          10	Recluso ou Detido
-          11	Outros
+    ![alt text]({575D4806-27E9-4005-9A18-1F1D6DB6CAEA}.png)
 
-  # Interpretação dos Resultados
+  ## Desenvolvedor
+    Lucas A. Gouveia
+    Diretor Técnico de Dados
+    IPREM-SP
 
-    Os cenários ajudam a identificar inconsistências cadastrais e orientar ajustes.
-    O relatório exploratório fornece uma visão geral da base e possíveis anomalias.
-    O resumo estatístico permite identificar padrões e outliers em variáveis financeiras e demográficas.
-    Os dados podem ser utilizados para validação atuarial junto ao IPREM.
+  ## Atualização
+    Data 17/11/2025

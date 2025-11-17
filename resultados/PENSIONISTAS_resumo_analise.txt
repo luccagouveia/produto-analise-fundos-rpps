@@ -1,0 +1,8 @@
+1. Total analisados (FUNPREV): 17921
+2. Compatíveis: 17915 (99.97%)
+3. Incompatíveis: 6 (0.03%)
+4. CPF duplicados: 2648
+
+5. Top 5 órgãos com incompatíveis:
+5.1 - IPREM APOSENTADOS: 4
+5.2 - PREFEITURA DO MUNICIPIO DE SAO PAULO: 2

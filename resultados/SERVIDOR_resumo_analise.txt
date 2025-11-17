@@ -1,28 +1,27 @@
-1. Total de linhas: 117.033
-2. Compatíveis: 113.768
+1. Total de linhas: 116174
 
-3. Incompatíveis: 3.265
-3.1.1 - Incompatíveis CO_TIPO_FUNDO 1: 3.219
-3.1.2 - Incompatíveis CO_TIPO_FUNDO 2: 8
-3.1.9 - Incompatíveis CO_TIPO_FUNDO 9: 38
+2. CPF_DUPLICADO 
+2.1 - verdadeiro: 15149
 
-3.1 - Incompatíveis por NO_ORGAO:
+3. Fundos Compatíveis: 112922 (97.20%)
 
-  PREFEITURA DO MUNICIPIO DE SAO PAULO: 3.136
-  HOSP SERV PUBLICO MUNICIPAL: 69
-  TRIBUNAL DE CONTAS DO MUNICIPIO DE SAO PAULO: 60
+4. Fundos Incompatíveis: 3252 (2.80%)
+4.1.1 - Incompatíveis no fundo FUNPREV: 3205
+4.1.2 - Incompatíveis no fundo Não consta: 39
+4.1.3 - Incompatíveis no fundo FUNFIN: 8
 
+5. Incompatíveis por NO_ORGAO:
+5.1 - PREFEITURA DO MUNICIPIO DE SAO PAULO: 3124
+5.2 - HOSP SERV PUBLICO MUNICIPAL: 69
+5.3 - TRIBUNAL DE CONTAS DO MUNICIPIO DE SAO PAULO: 59
 
-    3.2 - Cenario 1: 1.735
-    3.2 - Cenario 2: 1.120
-    3.2 - Cenario 3: 410
+6 - Cenarios de incompatibilidade:
+6.1 - Cenario 1: 1730
+6.2 - Cenario 2: 1139
+6.3 - Cenario 3: 383
 
-3.3 - Valor total VL_CONTRIBUICAO incompatível: 2.414.094.72
+7. VL_CONTRIBUICAO 
+7.1 - nulo ou vazio: 290
 
-3.3.1 - Valor total VL_CONTRIBUICAO incompatível para CO_TIPO_FUNDO 1: 2.409.243.43
-3.3.2 - Valor total VL_CONTRIBUICAO incompatível para CO_TIPO_FUNDO 2: 4.851.29
-3.3.9 - Valor total VL_CONTRIBUICAO incompatível para CO_TIPO_FUNDO 9: 0.00
-
-3.4 - VL_CONTRIBUICAO nulo ou vazio: 306
-
-4. CPF_DUPLICADO verdadeiro: 15.311
+8. Valor total VL_CONTRIBUICAO 
+8.1 - incompatível: 2415525.97

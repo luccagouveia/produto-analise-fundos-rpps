@@ -1,0 +1,21 @@
+1. Total de linhas: 95398
+
+2. Fundos Compatíveis: 95235 (99.83%)
+
+3. Fundos Incompatíveis: 163 (0.17%)
+3.1.1 - Incompatíveis no fundo FUNPREV: 141
+3.1.2 - Incompatíveis no fundo FUNFIN: 22
+
+4. Incompatíveis por NO_ORGAO:
+4.1 - PREFEITURA DO MUNICIPIO DE SAO PAULO: 85
+4.2 - TRIBUNAL DE CONTAS DO MUNICIPIO DE SAO PAULO: 39
+4.3 - SERVICO FUNERARIO DO MUNICIPIO DE SAO PAULO: 37
+
+5 - Cenários de incompatibilidade:
+5.1 - Cenario 1: 157
+5.2 - Cenario 2: 1
+5.3 - Cenario 3: 5
+
+6. Valor total VL_CONTRIBUICAO incompatível: 241336.28
+
+7. CPF_DUPLICADO verdadeiro: 8764
